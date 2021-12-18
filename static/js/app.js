@@ -34,7 +34,6 @@ let data = d3.json("data/samples.json").then((rawData) => {
         loadMetaData();
         // re-load the bar chart
         createBar(document.getElementById('selDataset').value);
-
         // re-load the bubble chart
         createBubble(document.getElementById('selDataset').value);
     };
@@ -42,20 +41,20 @@ let data = d3.json("data/samples.json").then((rawData) => {
     /**
      * Update the meta-data
      */
-    function loadMetaData(){
+    function loadMetaData() {
         /**
          * locate the selected index
         * */
-         let index = document.getElementById('selDataset').value;
+        let index = document.getElementById('selDataset').value;
 
-         // generate key-value pair from the metadata using the index and add it
-         //     to the associated metadata div
-         document.getElementById('sample-metadata').innerHTML = "";
-         for (const [key, value] of Object.entries(rawData.metadata[index])) {
-             let str = document.createElement('h5')
-             str.innerHTML = `${key}: ${value}`
-             document.getElementById('sample-metadata').appendChild(str);
-         };
+        // generate key-value pair from the metadata using the index and add it
+        //     to the associated metadata div
+        document.getElementById('sample-metadata').innerHTML = "";
+        for (const [key, value] of Object.entries(rawData.metadata[index])) {
+            let str = document.createElement('h5')
+            str.innerHTML = `${key}: ${value}`
+            document.getElementById('sample-metadata').appendChild(str);
+        };
     };
 
     /**
@@ -89,17 +88,17 @@ let data = d3.json("data/samples.json").then((rawData) => {
     /**
     * create the bubble chart
     */
-    function createBubble(index){
+    function createBubble(index) {
         /**
         * create the bubble chart
         */
-         let sample = rawData.samples[index];
-         let bubble = {
-            
-         };
-         let layout = {
+        let sample = rawData.samples[index];
+        let bubble = {
+            // TODO: update the bubble logic
+        };
+        let layout = {
             showlegend: false
         };
-         Plotly.newPlot('bubble', bubble, layout);
+        Plotly.newPlot('bubble', bubble, layout);
     };
 });
