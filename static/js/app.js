@@ -38,22 +38,27 @@ let data = d3.json("data/samples.json").then((rawData) => {
          * find the top ten bacterias in the samples and create the bar chart
          */
         let sample = rawData.samples[index];
-        let xAxis = [];
+        let xAxis = sample.sample_values;
         let yAxis = [];
-        let hoverText = [];
-        for (let i = 0; i < 10; i++) {
+        let hoverText = sample.otu_labels;
+        for (let i = 0; i < sample.otu_ids.length; i++) {
             yAxis.push("OTU " + sample.otu_ids[i])
-            xAxis.push(sample.sample_values[i]);
-            hoverText.push(sample.otu_labels[i]);
         };
         // create the horizontal bar chart
         let hBar = [{
             type: 'bar',
-            x: xAxis.reverse(),
-            y: yAxis.reverse(),
+            x: xAxis.slice(0,9).reverse(),
+            y: yAxis.slice(0,9).reverse(),
             orientation: 'h',
-            text: hoverText
+            text: hoverText.slice(0,9).reverse()
         }];
         Plotly.newPlot("bar", hBar);
+
+        let testX = sample.sample_values;
+        console.log(testX);
     };
+    
+    /**
+    * create the bubble chart
+    */
 });
