@@ -97,7 +97,6 @@ let data = d3.json("data/samples.json").then((rawData) => {
         * create the bubble chart
         */
         let sample = rawData.samples[index];
-        console.log(sample.sample_values);
         let bubble = [{
             x: sample.otu_ids,
             y: sample.sample_values,
