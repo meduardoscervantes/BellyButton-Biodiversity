@@ -25,6 +25,8 @@ let data = d3.json("data/samples.json").then((rawData) => {
     createBar(document.getElementById('selDataset').value);
     //load bubble chart
     createBubble(document.getElementById('selDataset').value);
+    //load the gauge
+    createGauge(document.getElementById('selDataset').value);
 
     /**
      * when a name is selected update the page with the new data
@@ -36,6 +38,8 @@ let data = d3.json("data/samples.json").then((rawData) => {
         createBar(document.getElementById('selDataset').value);
         // re-load the bubble chart
         createBubble(document.getElementById('selDataset').value);
+        // re-load the gauge
+        createGauge(document.getElementById('selDataset').value);
     };
 
     /**
@@ -108,5 +112,53 @@ let data = d3.json("data/samples.json").then((rawData) => {
             showlegend: false
         };
         Plotly.newPlot('bubble', bubble, layout);
+    };
+
+    /**
+     * create the gauge
+     */
+    function createGauge(index) {
+        /**
+        * create the gauge
+        */
+        let sample = rawData.samples[index];
+        // value is calculated as the average amount of sample values found / 100
+        let sum = 0;
+        for(let i = 0; i < sample.sample_values.length;i++){
+            sum += sample.sample_values[i];
+        };
+        let avg = sum / sample.sample_values.length;
+        var data = [
+            {
+              type: "indicator",
+              mode: "gauge+number",
+              value: avg,
+              title: { text: "Belly Button Washing Frequency", font: { size: 24 } },
+              gauge: {
+                axis: { range: [0, 21], tickcolor: "darkblue" },
+                bar: { color: "darkblue" },
+                bgcolor: "white",
+                bordercolor: "gray",
+                steps: [
+                  { range: [0,7], color: "lightgreen" },
+                  { range: [7,14], color: "yellow" },
+                  { range: [14,21], color: "red" }
+                ],
+              }
+            }
+          ];
+          var layout = {
+            margin: { t: 50, r: 50, l: 50, b: 50 },
+            font: { color: "darkblue", family: "Arial" }
+          };
+
+          Plotly.newPlot('gauge', data, layout);
+          if(avg <= 7){
+            document.getElementById('reading').innerHTML = `You should be scrubbing ${Math.trunc(avg)} times a week. \nThere isn't much of a worry of bacteria!`;
+        }else if(avg > 7 && avg <= 14){
+            document.getElementById('reading').innerHTML = `You should be scrubbing ${Math.trunc(avg)} times a week. \nThere should be a moderate concern of bacteria!`;
+          }else if(avg > 14){
+            document.getElementById('reading').innerHTML = `You should be scrubbing ${Math.trunc(avg)} times a week. \nThere is a high amount of bacteria detected! Maintain a healthy amount of cleaning.`;
+          }
     };
 });
