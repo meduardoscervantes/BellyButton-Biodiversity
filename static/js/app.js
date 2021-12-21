@@ -126,7 +126,7 @@ let data = d3.json("data/samples.json").then((rawData) => {
         for (let i = 0; i < sample.sample_values.length; i++) {
             sum += sample.sample_values[i];
         };
-        let avg = sum / sample.sample_values.length;
+        let avg = sum / sample.sample_values.length / 2;
         var data = [
             {
                 type: "indicator",
@@ -134,14 +134,14 @@ let data = d3.json("data/samples.json").then((rawData) => {
                 value: avg,
                 title: { text: "Belly Button Washing Frequency", font: { size: 24 } },
                 gauge: {
-                    axis: { range: [0, 21], tickcolor: "darkblue" },
+                    axis: { range: [0, 9], tickcolor: "darkblue" },
                     bar: { color: "darkblue" },
                     bgcolor: "white",
                     bordercolor: "gray",
                     steps: [
-                        { range: [0, 7], color: "lightgreen" },
-                        { range: [7, 14], color: "yellow" },
-                        { range: [14, 21], color: "red" }
+                        { range: [0, 3], color: "lightgreen" },
+                        { range: [3, 6], color: "yellow" },
+                        { range: [6, 9], color: "red" }
                     ],
                 }
             }
@@ -152,11 +152,11 @@ let data = d3.json("data/samples.json").then((rawData) => {
         };
 
         Plotly.newPlot('gauge', data, layout);
-        if (avg <= 7) {
+        if (avg <= 3) {
             document.getElementById('reading').innerHTML = `You should be scrubbing ${Math.trunc(avg)} times a week. \nThere isn't much of a worry of bacteria!`;
-        } else if (avg > 7 && avg <= 14) {
+        } else if (avg > 3 && avg <= 6) {
             document.getElementById('reading').innerHTML = `You should be scrubbing ${Math.trunc(avg)} times a week. \nThere should be a moderate concern of bacteria!`;
-        } else if (avg > 14) {
+        } else if (avg > 6) {
             document.getElementById('reading').innerHTML = `You should be scrubbing ${Math.trunc(avg)} times a week. \nThere is a high amount of bacteria detected! Maintain a healthy amount of cleaning.`;
         }
     };
