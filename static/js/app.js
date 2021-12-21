@@ -126,7 +126,7 @@ let data = d3.json("data/samples.json").then((rawData) => {
         for (let i = 0; i < sample.sample_values.length; i++) {
             sum += sample.sample_values[i];
         };
-        let avg = sum / sample.sample_values.length / 2;
+        let avg = sum / sample.sample_values.length / 4;
         var data = [
             {
                 type: "indicator",
